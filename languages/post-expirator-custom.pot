@@ -1,0 +1,22 @@
+# Copyright (C) 2011 Post Expirator Custom
+# This file is distributed under the same license as the Post Expirator Custom package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Expirator Custom 0.1\n"
+
+#: post-expirator-custom.php:57
+msgid "Once a Minute"
+msgstr ""
+
+#: post-expirator-custom.php:133
+msgid "Expires"
+msgstr ""
+
+#: post-expirator-custom.php:224
+msgid "Expired on"
+msgstr ""
+
+#: post-expirator-custom.php:279
+msgid "Enable Post Expiration"
+msgstr ""
+

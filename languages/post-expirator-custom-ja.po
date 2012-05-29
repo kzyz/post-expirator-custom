@@ -1,0 +1,32 @@
+# Copyright (C) 2011 Post Expirator Custom
+# This file is distributed under the same license as the Post Expirator Custom package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Expirator Custom 0.1\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Kazunori Yamazaki <yamazaki@gluum.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+
+#: post-expirator-custom.php:57
+msgid "Once a Minute"
+msgstr "毎分"
+
+#: post-expirator-custom.php:133
+msgid "Expires"
+msgstr "有効期限"
+
+#: post-expirator-custom.php:224
+msgid "Expired on"
+msgstr "有効期限"
+
+#: post-expirator-custom.php:279
+msgid "Enable Post Expiration"
+msgstr "投稿の有効期限を有効にする。"
+

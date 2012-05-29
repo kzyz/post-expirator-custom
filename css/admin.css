@@ -1,0 +1,34 @@
+.curtime #expiration_timestamp {
+    background-image: url("../images/date-button.gif");
+}
+
+.curtime #expiration_timestamp {
+    background-position: left top;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+	line-height: 23px;
+}
+
+th#expires {
+	width: 10%;	
+}
+
+#exp_year, #exp_day, #exp_hour, #exp_minute {
+padding: 1px;
+font-size: 12px;
+}
+
+#exp_year {
+width: 3.4em;
+}
+
+#exp_day, #exp_hour, #exp_minute {
+width: 2em;
+}
+
+#expiration_timestamp select {
+height: 20px;
+line-height: 14px;
+padding: 0;
+vertical-align: top;
+}
