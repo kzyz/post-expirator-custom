@@ -4,7 +4,7 @@ Plugin Name: Post Expirator Custom
 Plugin URI: 
 Description: This Plugin is Custom Post Expirator Plugin.
 Author: Kazunori Yamazaki
-Version: 0.1
+Version: 0.2
 Author URI: 
 Text Domain: post-expirator-custom
 */
@@ -18,7 +18,7 @@ I appreciate your efforts, Aaron.
  * PostExp
  * 
  * @author		Kazunori Yamazaki
- * @version		0.1
+ * @version		0.2
  * 
  *****************************************************************************/
 
@@ -38,7 +38,7 @@ class PostExp {
 	function PostExp() {
 		global $wpdb;
 
-		$this -> version = '0.1';
+		$this -> version = '0.2';
 		$this -> text_domain = 'post-expirator-custom';
 		$this -> plugin_base_name = plugin_basename( __FILE__ );
 		$this -> plugin_dir = get_option( 'siteurl' ) . '/wp-content/plugins/' . dirname( $this -> plugin_base_name );
@@ -210,7 +210,7 @@ class PostExp {
 	 */
 	function submitbox() {
 		global $post, $action;
-		
+
 		$datef = __( 'M j, Y @ G:i' );
 		$expirationdatets = strtotime( get_post_meta( $post -> ID, 'exp_date' , true ) );
 		
@@ -221,7 +221,7 @@ class PostExp {
 		}
 		
 		echo '<div class="misc-pub-section curtime misc-pub-section-last" style="border-top:1px solid #EEE">';
-		echo '	<span id="expiration_timestamp">' . __( 'Expired on', $this -> text_domain ) . ': <b>' . $exp_date . '</b></span>';
+		echo '	<span id="expiration_timestamp"> ' . __( 'Expired on', $this -> text_domain ) . ': <b>' . $exp_date . '</b></span>';
 		echo '	<a href="#edit_expiration_date" class="edit-expiration_date hide-if-no-js" tabindex="4">' . __( 'Edit' ) . '</a>';
 		echo '	<div id="expiration_date_div" class="hide-if-js">';
 		$this -> touchTime( ( $action == 'edit' ), 1, 4 );
@@ -238,18 +238,19 @@ class PostExp {
 	 * @param unknown_type $multi
 	 */
 	function touchTime( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
-		global $wp_locale, $post, $comment;
-		
+		global $wp_locale;
+		$post = get_post();
+
 		$exp_date = get_post_meta( $post->ID, 'exp_date', true );
 		$exp_date_gmt = get_post_meta( $post->ID, 'exp_date_gmt', true );
-		
+
 		if ( $for_post )
 			$edit = ! ( !$exp_date_gmt || '0000-00-00 00:00:00' == $exp_date_gmt ) ;
-	
+
 		$tab_index_attribute = '';
 		if ( (int) $tab_index > 0 )
 			$tab_index_attribute = " tabindex=\"$tab_index\"";
-	
+
 		// echo '<label for="timestamp" style="display: block;"><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> '.__( 'Edit timestamp' ).'</label><br />';
 	
 		$time_adj = current_time( 'timestamp' );
@@ -259,16 +260,25 @@ class PostExp {
 		$hh = ( $edit ) ? mysql2date( 'H', $exp_date, false ) : gmdate( 'H', $time_adj );
 		$mn = ( $edit ) ? mysql2date( 'i', $exp_date, false ) : gmdate( 'i', $time_adj );
 		$ss = ( $edit ) ? mysql2date( 's', $exp_date, false ) : gmdate( 's', $time_adj );
-	
+
+		$exp_cur_jj = gmdate( 'd', $time_adj );
+		$exp_cur_mm = gmdate( 'm', $time_adj );
+		$exp_cur_aa = gmdate( 'Y', $time_adj );
+		$exp_cur_hh = gmdate( 'H', $time_adj );
+		$exp_cur_mn = gmdate( 'i', $time_adj );
+
 		$month = "<select " . ( $multi ? '' : 'id="exp_month" ' ) . "name=\"exp_month\"$tab_index_attribute>\n";
 		for ( $i = 1; $i < 13; $i = $i +1 ) {
-			$month .= "\t\t\t" . '<option value="' . zeroise($i, 2) . '"';
+			$monthnum = zeroise($i, 2);
+			$month .= "\t\t\t" . '<option value="' . $monthnum . '"';
 			if ( $i == $mm )
 				$month .= ' selected="selected"';
-			$month .= '>' . $wp_locale -> get_month_abbrev( $wp_locale -> get_month( $i ) ) . "</option>\n";
+			/* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
+			$month .= '>' . sprintf( __( '%1$s-%2$s' ), $monthnum, $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) ) . "</option>\n";
 		}
 		$month .= '</select>';
-	
+
+
 		$day = '<input type="text" ' . ( $multi ? '' : 'id="exp_day" ' ) . 'name="exp_day" value="' . $jj . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
 		$year = '<input type="text" ' . ( $multi ? '' : 'id="exp_year" ' ) . 'name="exp_year" value="' . $aa . '" size="4" maxlength="4"' . $tab_index_attribute . ' autocomplete="off" />';
 		$hour = '<input type="text" ' . ( $multi ? '' : 'id="exp_hour" ' ) . 'name="exp_hour" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
@@ -278,21 +288,26 @@ class PostExp {
 		echo '<div class="expiration_date-wrap">';
 		echo '<p><input type="checkbox" name="exp_check" id="exp_check"' . ( ( !$exp_date_gmt ) ? '' : ' checked="checked"' ) . ' /> ' . __( 'Enable Post Expiration', $this -> text_domain ) . '</p>';
 		/* translators: 1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input */
-		printf(__('%1$s%2$s, %3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
-	
+		printf(__('%1$s %2$s, %3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
+
 		echo '</div><input type="hidden" id="exp_second" name="exp_second" value="' . $ss . '" />';
 	
 		if ( $multi ) return;
-	
-		echo "\n";
+
+		echo "\n\n";
+		foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit ) {
+			echo '<input type="hidden" id="exp_hidden_' . $timeunit . '" name="exp_hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
+			$cur_timeunit = 'exp_cur_' . $timeunit;
+			echo '<input type="hidden" id="'. $cur_timeunit . '" name="'. $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
+		}
 	
 		echo '<p>';
-		echo '<a href="#edit_expiration_date" class="save-expiration_date hide-if-no-js button">' . __('OK') . '</a> ';
-		echo '<a href="#edit_expiration_date" class="cancel-expiration_date hide-if-no-js">' . __('Cancel') . '</a>';
+		echo '<a href="#edit_expiration_date" class="save-expiration_date hide-if-no-js button">' . __('OK') . '</a>&nbsp;';
+		echo '<a href="#edit_expiration_date" class="cancel-expiration_date hide-if-no-js button-cancel">' . __('Cancel') . '</a>';
 		echo '</p>';
 	
 	}
-	
+
 	/**
 	 * addAdminCss
 	 * 

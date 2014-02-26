@@ -1,34 +1,47 @@
 .curtime #expiration_timestamp {
-    background-image: url("../images/date-button.gif");
+	padding: 2px 0 1px;
+	display: inline !important;
+	height: auto !important;
 }
 
-.curtime #expiration_timestamp {
-    background-position: left top;
-    background-repeat: no-repeat;
-    padding-left: 18px;
-	line-height: 23px;
+.curtime #expiration_timestamp:before {
+	font: 400 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	padding: 0 2px 0 0;
+	top: 0;
+	left: -1px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	content: '\f145';
+	top: -1px;
+	color: #888;
 }
 
 th#expires {
-	width: 10%;	
+	width: 10%;
 }
 
 #exp_year, #exp_day, #exp_hour, #exp_minute {
-padding: 1px;
-font-size: 12px;
+	padding: 1px;
+	font-size: 12px;
 }
 
 #exp_year {
-width: 3.4em;
+	width: 3.4em;
 }
 
 #exp_day, #exp_hour, #exp_minute {
-width: 2em;
+	width: 2em;
 }
 
-#expiration_timestamp select {
-height: 20px;
-line-height: 14px;
-padding: 0;
-vertical-align: top;
+#expiration_date_div select {
+	height: 21px;
+	line-height: 14px;
+	padding: 0;
+	vertical-align: top;
+	font-size: 12px;
 }
