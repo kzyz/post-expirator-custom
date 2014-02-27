@@ -38,6 +38,19 @@ th#expires {
 	width: 2em;
 }
 
+#expiration_date_div {
+	padding-top: 5px;
+	line-height: 23px;
+}
+
+#expiration_date_div p {
+	margin: 8px 0 6px;
+}
+
+#expiration_date_div p.expiration_date-check {
+	margin: 0 0 6px;
+}
+
 #expiration_date_div select {
 	height: 21px;
 	line-height: 14px;

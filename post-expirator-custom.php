@@ -286,7 +286,7 @@ class PostExp {
 		
 
 		echo '<div class="expiration_date-wrap">';
-		echo '<p><input type="checkbox" name="exp_check" id="exp_check"' . ( ( !$exp_date_gmt ) ? '' : ' checked="checked"' ) . ' /> ' . __( 'Enable Post Expiration', $this -> text_domain ) . '</p>';
+		echo '<p class="expiration_date-check"><input type="checkbox" name="exp_check" id="exp_check"' . ( ( !$exp_date_gmt ) ? '' : ' checked="checked"' ) . ' /> ' . __( 'Enable Post Expiration', $this -> text_domain ) . '</p>';
 		/* translators: 1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input */
 		printf(__('%1$s %2$s, %3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
 
