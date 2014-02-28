@@ -261,12 +261,6 @@ class PostExp {
 		$mn = ( $edit ) ? mysql2date( 'i', $exp_date, false ) : gmdate( 'i', $time_adj );
 		$ss = ( $edit ) ? mysql2date( 's', $exp_date, false ) : gmdate( 's', $time_adj );
 
-		$exp_cur_jj = gmdate( 'd', $time_adj );
-		$exp_cur_mm = gmdate( 'm', $time_adj );
-		$exp_cur_aa = gmdate( 'Y', $time_adj );
-		$exp_cur_hh = gmdate( 'H', $time_adj );
-		$exp_cur_mn = gmdate( 'i', $time_adj );
-
 		$month = "<select " . ( $multi ? '' : 'id="exp_month" ' ) . "name=\"exp_month\"$tab_index_attribute>\n";
 		for ( $i = 1; $i < 13; $i = $i +1 ) {
 			$monthnum = zeroise($i, 2);
@@ -294,13 +288,8 @@ class PostExp {
 	
 		if ( $multi ) return;
 
-		echo "\n\n";
-		foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit ) {
-			echo '<input type="hidden" id="exp_hidden_' . $timeunit . '" name="exp_hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
-			$cur_timeunit = 'exp_cur_' . $timeunit;
-			echo '<input type="hidden" id="'. $cur_timeunit . '" name="'. $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
-		}
-	
+		echo "\n";
+
 		echo '<p>';
 		echo '<a href="#edit_expiration_date" class="save-expiration_date hide-if-no-js button">' . __('OK') . '</a>&nbsp;';
 		echo '<a href="#edit_expiration_date" class="cancel-expiration_date hide-if-no-js button-cancel">' . __('Cancel') . '</a>';
